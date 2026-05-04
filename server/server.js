@@ -1,31 +1,30 @@
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-
 require("dotenv").config();
 
-
+const express = require("express");
+const app = express();
+const connectDb = require('./config/database');
+const mongoose = require('mongoose');
 
 app.use(express.json());
+
 app.get("/", (request, response) => {
   response.send("AI symptom checker with triage prioritization.");
 });
 
 const PORT = process.env.PORT || 3000;
 
-const connectDb = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("Database Connected");
-  } catch (e) {
-    console.log(`Database connection failed: ${e.message}`);
-    process.exit(1);
-  }
-};
+const symptomSchema = new mongoose.Schema({
+  symptoms:{
+    type:[String],
+    required:true
+  },
+  severity:String,
+  recommendation:String
+});
 
+const Symptom = mongoose.model("Symptom",symptomSchema);
 
-
-const initializeDbAndServer = async () => {
+const initialiseDbAndServer = async () => {
 
   await connectDb();
   try {
@@ -38,4 +37,4 @@ const initializeDbAndServer = async () => {
   }
 };
 
-initializeDbAndServer();
+initialiseDbAndServer();
