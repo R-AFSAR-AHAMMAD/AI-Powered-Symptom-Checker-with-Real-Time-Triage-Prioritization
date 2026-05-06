@@ -5,7 +5,7 @@ const app = express();
 const mongoose = require("mongoose");
 
 const connectDb = require("./config/database");
-const Symptom = require("./models/Symptom");
+const symptomsRoutes = require("./routes/symptomsRoutes")
 
 app.use(express.json());
 
@@ -15,30 +15,7 @@ app.get("/", (request, response) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.post("/analyse", async (req, res) => {
-  try {
-    const { symptoms, age, gender } = req.body;
-
-    const result = {
-      severity: "low",
-      recommendation: "Rest and monitor",
-    };
-
-    const record = new Symptom({
-      age,
-      gender,
-      symptoms,
-      severity: result.severity,
-      recommendation: result.recommendation,
-    });
-
-    await record.save();
-
-    res.status(201).json(result);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
+app.use("/",symptomsRoutes);
 
 const initialiseDbAndServer = async () => {
   try {
