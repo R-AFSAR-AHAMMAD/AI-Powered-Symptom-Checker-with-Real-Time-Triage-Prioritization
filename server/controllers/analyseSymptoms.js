@@ -23,4 +23,14 @@ const analyseSymptoms = async (req, res) => {
   }
 };
 
-module.exports = analyseSymptoms;
+const getAllAnalyses = async (request,response)=>{
+    try{
+        const analyses = await Symptom.find();
+        response.json(analyses);
+
+    }catch(e){
+        response.status(500).json({error:e.message});
+    }
+};
+
+module.exports = {analyseSymptoms,getAllAnalyses};
