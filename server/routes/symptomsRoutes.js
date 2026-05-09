@@ -1,8 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const {getAllAnalyses,analyseSymptoms} = require("../controllers/analyseSymptoms");
+const {
+  getAllAnalyses,
+  analyseSymptoms,
+  getAnalysis,
+  deleteAnalysis,
+  updateAnalysis,
+} = require("../controllers/analyseSymptoms");
 
-router.post("/analyse",analyseSymptoms);
-router.get("/analyses",getAllAnalyses);
+router.post("/analyse", analyseSymptoms);
+router.get("/analyses", getAllAnalyses);
+router.get("/analyses/:id", getAnalysis);
+router.delete("/analyses/:id", deleteAnalysis);
+router.put("/analyses/:id", updateAnalysis);
+
 module.exports = router;
