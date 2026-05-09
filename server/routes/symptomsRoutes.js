@@ -9,7 +9,7 @@ const {
   updateAnalysis,
 } = require("../controllers/analyseSymptoms");
 
-router.post("/analyse", analyseSymptoms);
+router.post("/analyses", analyseSymptoms);
 router.get("/analyses", getAllAnalyses);
 router.get("/analyses/:id", getAnalysis);
 router.delete("/analyses/:id", deleteAnalysis);
