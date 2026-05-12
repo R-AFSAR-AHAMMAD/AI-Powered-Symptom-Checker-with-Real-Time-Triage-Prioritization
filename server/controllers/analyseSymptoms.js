@@ -5,7 +5,23 @@ const triage = require("../utils/triage");
 const analyseSymptoms = async (request, response) => {
   try {
     const { symptoms, age, gender } = request.body;
+    if (!symptoms || symptoms.length===0) {
+      return response.status(400).json({
+        error: "Please add symptoms",
+      });
+    }
 
+    if (!age || age <= 0) {
+      return response.status(400).json({
+        error: "Please enter a valid age",
+      });
+    }
+
+    if (!gender) {
+      return response.status(400).json({
+        error: "Please select gender",
+      });
+    }
     const result = triage(symptoms, age, gender);
 
     const record = new Symptom({
@@ -20,7 +36,7 @@ const analyseSymptoms = async (request, response) => {
 
     response.status(201).json(result);
   } catch (e) {
-    if (e.message === "ValidationError") {
+    if (e.name === "ValidationError") {
       return response.status(400).json({ error: e.message });
     }
     response.status(500).json({ error: e.message });
@@ -66,8 +82,8 @@ const deleteAnalysis = async (request, response) => {
 
 const updateAnalysis = async (request, response) => {
   const { id } = request.params;
-  const {age} = request.body;
-  if (age && age<0){
+  const { age } = request.body;
+  if (age && age < 0) {
     return response.status(400).json({ error: "age must be greater than -1" });
   }
   try {

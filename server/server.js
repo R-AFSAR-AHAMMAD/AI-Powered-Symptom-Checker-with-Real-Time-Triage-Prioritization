@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 const connectDb = require("./config/database");
 const symptomsRoutes = require("./routes/symptomsRoutes")
-
+const authRoutes = require("./routes/authRoutes");
 app.use(express.json());
 
 app.get("/", (request, response) => {
@@ -16,7 +16,7 @@ app.get("/", (request, response) => {
 const PORT = process.env.PORT || 3000;
 
 app.use("/",symptomsRoutes);
-
+app.use("/",authRoutes);
 const initialiseDbAndServer = async () => {
   try {
     await connectDb();
