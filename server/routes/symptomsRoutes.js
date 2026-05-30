@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const authMiddleware = require("../middleware/authMiddleware");
+const roleMiddleware = require("../middleware/roleMiddleware");
 
 const {
   getAllAnalyses,
@@ -9,10 +11,36 @@ const {
   updateAnalysis,
 } = require("../controllers/analyseSymptoms");
 
-router.post("/analyses", analyseSymptoms);
-router.get("/analyses", getAllAnalyses);
-router.get("/analyses/:id", getAnalysis);
-router.delete("/analyses/:id", deleteAnalysis);
-router.put("/analyses/:id", updateAnalysis);
+router.post(
+  "/analyses",
+  authMiddleware,
+  roleMiddleware("receptionist"),
+  analyseSymptoms,
+);
+router.get(
+  "/analyses",
+  authMiddleware,
+  roleMiddleware("receptionist", "doctor"),
+  getAllAnalyses,
+);
+router.get(
+  "/analyses/:id",
+  authMiddleware,
+  roleMiddleware("receptionist", "doctor"),
+  getAnalysis,
+);
 
+router.put(
+  "/analyses/:id",
+  authMiddleware,
+  roleMiddleware("receptionist", "doctor"),
+  updateAnalysis,
+);
+
+router.delete(
+  "/analyses/:id",
+  authMiddleware,
+  roleMiddleware("doctor"),
+  deleteAnalysis,
+);
 module.exports = router;

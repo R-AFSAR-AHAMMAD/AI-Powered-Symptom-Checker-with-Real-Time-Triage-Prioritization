@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use("/",symptomsRoutes);
 app.use("/",authRoutes);
+
 const initialiseDbAndServer = async () => {
   try {
     await connectDb();

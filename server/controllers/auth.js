@@ -2,7 +2,6 @@ const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
 const signup = async (request, response) => {
   try {
     const { name, email, password, role } = request.body;
@@ -35,34 +34,42 @@ const signup = async (request, response) => {
   }
 };
 
-
 const login = async (request, response) => {
   const { email, password } = request.body;
   try {
     if (!email || !password) {
-      return response
-        .status(400)
-        .json({ error: "please fill the details" });
+      return response.status(400).json({ error: "please fill the details" });
+    }
+    if(!email.includes("@")){
+      return response.status(400).json({error:"Invalid email"})
     }
 
-    const user = User.findOne({email});
+    const user = await User.findOne({ email });
 
-    if (!user){
-      return response.status(401).json({error:"Invalid credentials"})
+    if (!user) {
+      return response.status(401).json({ error: "Invalid credentials" });
     }
 
-    const isPasswordMatching = await bcryptjs.compare(password,user.password);
+    const isPasswordMatching = await bcryptjs.compare(password, user.password);
 
-    if (!isPasswordMatching){
+    if (!isPasswordMatching) {
+      return response.status(401).json({
+        error: "Invalid credentials",
+      });
     }
 
-    const token = jwt.sign({
-      id:user._id,
-      role:user.role
-    },process.env.JWT_SECRET,{expiresIn:"30d"})
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" },
+    );
 
-    response.status(200).json({message:"Login Successfull",token,role:user.role});
-
+    response
+      .status(200)
+      .json({ message: "Login Successfull", token, role: user.role });
   } catch (e) {
     response.status(500).json({ error: e.message });
   }
@@ -76,4 +83,5 @@ const getStaff = async (request, response) => {
     response.status(500).json({ error: e.message });
   }
 };
-module.exports = { signup, getStaff };
+
+module.exports = { signup, getStaff, login };
