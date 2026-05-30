@@ -5,5 +5,5 @@ const router = express.Router();
 const {signup,getStaff} = require("../controllers/auth")
 
 router.post("/signup",signup);
-router.get("/signup",getStaff);
+router.get("/staff",getStaff);
 module.exports = router;

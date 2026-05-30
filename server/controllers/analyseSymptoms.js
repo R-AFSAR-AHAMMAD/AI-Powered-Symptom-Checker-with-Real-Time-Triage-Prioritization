@@ -1,4 +1,3 @@
-const { response } = require("express");
 const Symptom = require("../models/Symptom");
 const triage = require("../utils/triage");
 

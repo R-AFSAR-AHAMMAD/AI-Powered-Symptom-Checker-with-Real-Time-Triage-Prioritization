@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 
 const connectDb = require("./config/database");
 const symptomsRoutes = require("./routes/symptomsRoutes")
