@@ -18,9 +18,13 @@ dist-ssr
 client/dist
 
 # Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 server/.env
 client/.env
-.env
 
 # Local files
 *.local
@@ -28,13 +32,13 @@ client/.env
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Misc
+# Visual Studio files
 *.suo
 *.ntvs*
 *.njsproj
