@@ -22,7 +22,6 @@ const triage = (symptoms, age, gender) => {
       recommendation: "Consult gynecologist",
     };
   }
-
   return {
     severity: "low",
     recommendation: "Rest and monitor",
