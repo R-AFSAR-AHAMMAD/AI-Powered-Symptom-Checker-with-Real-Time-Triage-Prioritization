@@ -1,3 +1,5 @@
+
+const cors = require("cors");
 require("dotenv").config();
 
 const express = require("express");
@@ -6,6 +8,7 @@ const app = express();
 const connectDb = require("./config/database");
 const symptomsRoutes = require("./routes/symptomsRoutes")
 const authRoutes = require("./routes/authRoutes");
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (request, response) => {
